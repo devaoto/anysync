@@ -132,9 +132,11 @@ const fetchProviderInfo = async (
 ): Promise<{ gogo: IAnimeInfo; zoro: IAnimeInfo }> => {
   const [gogo, zoro] = await Promise.all([
     gogoId
-      ? gogoanime.fetchAnimeInfo(gogoId)
+      ? gogoanime.fetchAnimeInfo(gogoId).catch(() => ({} as IAnimeInfo))
       : Promise.resolve({} as IAnimeInfo),
-    zoroId ? hianime.fetchAnimeInfo(zoroId) : Promise.resolve({} as IAnimeInfo),
+    zoroId
+      ? hianime.fetchAnimeInfo(zoroId).catch(() => ({} as IAnimeInfo))
+      : Promise.resolve({} as IAnimeInfo),
   ]);
 
   return { gogo, zoro };
